@@ -1,21 +1,12 @@
 require('dotenv').config()
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
-const e = require('express');
 const express = require('express');
 const app = express();
 app.use(express.static('public'));
 const Web3 = require("web3");
-const { create, globSource } = require('ipfs-http-client')
-const ipfs = create('http://127.0.0.1:5002')
-const NFTAbi = require('./NFT.json')
-const fs = require('fs');
 const axios = require('axios');
-const BigNumber = require('bignumber.js');
-
 const ChangetokenAbi = require('./Changetoken.json')
-
 const HDWalletProvider = require("@truffle/hdwallet-provider");
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const Moralis = require('moralis/node');
@@ -33,8 +24,8 @@ var api
 const provider = new HDWalletProvider(mnemonic, "https://data-seed-prebsc-1-s1.binance.org:8545");
 const web3 = new Web3(provider);
 
-const changeContract = new web3.eth.Contract(ChangetokenAbi, "0x031c0BCa1dBDE2A9D14b72f27c3Fb109334ac29e");
-const YOUR_DOMAIN = 'http://localhost:4242';
+const changeContract = new web3.eth.Contract(ChangetokenAbi, process.env.contractChangeToken);
+const YOUR_DOMAIN = process.env.domain;
 
 app.post('/create-checkout-session', async (req, res) => {
   const session = await stripe.checkout.sessions.create({
@@ -77,9 +68,7 @@ app.get('/order/success', async (req, res) => {
       query.equalTo("clienteReference", clienteReference);
       query.equalTo("paymentIntent", paymentIntent);
       const results = await query.find();
-
-          
-      axios.get('https://api.pancakeswap.info/api/v2/tokens/0xdee10834f93eaccfa2a35be0caebb91dda1ff09b')
+      axios.get(process.env.pancakeUrl)
       .then(function (response) {
       api = response.data.data.price;
       })
@@ -90,8 +79,6 @@ app.get('/order/success', async (req, res) => {
       precioDogma = api;
       
       });
-
-            
       if (results.length > 0) {
         res.setHeader("Content-Type", "text/html");
         res.write(`<html><body><h1>Esta transaccion ya fue hecha!</h1></body></html>`);
@@ -102,24 +89,18 @@ app.get('/order/success', async (req, res) => {
         pay.set("paymentIntent", paymentIntent);
         pay.save()
           .then((pay) => {
-            // Execute any logic that should take place after the object is saved.
             console.log('New object created with objectId: ' + pay.id);
             res.setHeader("Content-Type", "text/html");
             
             var address = clienteReference
             price = session.amount_total / 100;
-            console.log('price', price);
             dogma = price / precioDogma;
-            console.log('dogma', dogma);
 
           //Funcion de moralis para calcular token con 18 decimales
             var dogmaSend = Moralis.Units.ETH(dogma);
             var priceSend = Moralis.Units.ETH(price);
 
-            console.log('dogmaSend', dogmaSend);
-            console.log('priceSend', priceSend);
-
-            changeContract.methods.buy(priceSend,dogmaSend,address).call({from: '0x2C464075B2da12cd146C7F51dDcBBfCf523cEfba'}, function(error, result){
+            changeContract.methods.buy(priceSend,dogmaSend,address).send({from: '0x228caE4c3e91548AE04906b83d8041FE705AA977'}, function(error, result){
               console.log('error aqui',error);
               console.log('resultado aqui',result);
             });

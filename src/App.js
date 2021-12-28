@@ -8,7 +8,6 @@ import Menu from './components/Menu';
 // pages
 import HomePage from './pages/HomePage';
 import BuyPage from './pages/BuyPage';
-import PayPage from './pages/PayPage'
 
 function App() {
 
@@ -26,7 +25,6 @@ function App() {
 
         <Route exact path="/" component={HomePage} />
         <Route exact path="/buy" component={BuyPage} />
-        <Route exact path="/pay" component={PayPage} />
 
       </Router>
     </div>
