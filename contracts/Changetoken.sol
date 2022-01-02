@@ -10,14 +10,12 @@ contract Changetoken is Ownable {
     mapping(uint256 => uint256) public price;
     mapping(uint256 => uint256) public dogma;
      // aqui poner la direccion    
-    IERC20 public token = IERC20(0x031c0BCa1dBDE2A9D14b72f27c3Fb109334ac29e);
+    IERC20 public token = IERC20(0xA1dCB17E2C8aCcdce0023Acbd89793124e73142A);
     event Buy(
         address owner,
         uint256 dogma,
         uint256 price
     );
-
-
     function buy(
         uint256 _price,
         uint256 _dogma,

@@ -1,5 +1,5 @@
 require('dotenv').config()
-const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+const stripe = require('stripe')(process.env.stripeToken);
 const express = require('express');
 const app = express();
 app.use(express.static('public'));
@@ -46,7 +46,7 @@ app.post('/create-checkout-session', async (req, res) => {
     client_reference_id: req.body.wallet,
     mode: 'payment',
     success_url: `${YOUR_DOMAIN}/order/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${YOUR_DOMAIN}/cancel.html`,
+    cancel_url: `http://localhost:3000/cancel.html`,
   });
 
   res.redirect(303, session.url);
@@ -76,12 +76,16 @@ app.get('/order/success', async (req, res) => {
       console.log(error);
       })
       .then(function () {
-      precioDogma = api;
+        //precio si cuando funcione el api 
+       //precioDogma = api;
+        //precio sin el api
+        precioDogma = process.env.priceWithoutApi
+
       
       });
       if (results.length > 0) {
         res.setHeader("Content-Type", "text/html");
-        res.write(`<html><body><h1>Esta transaccion ya fue hecha!</h1></body></html>`);
+        res.write(`<html><body > <div class="di"> <img src="https://ludic.school/wp-content/uploads/2021/12/Final-03-1536x469.png" alt="Logo"> <section> <div style=" text-align: center; justify-content: center; align-items: center; "> <div class="container"> <h1>Ooops. Ha Ocurrido Un Error!</h1> <h2>La transaccion ya fue realizada!</h2> <a href="https://ludic.school/" class="button">Volver a intentar</a> </div> </div> </section> </div> <style> body { background: #AFE1F7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Ubuntu', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; } h2,h1 { font-style: normal; font-size: 3rem; line-height: auto; color: #242d60; margin: 0; opacity: 0.5; } img { width: 45rem; } section{ background: #6FC5A8; display: block; position: relative; width: 100%; height: auto; border-radius: 1rem; padding: 1rem; margin:auto; margin-top: 0%; text-align:center; } .button { border-radius: 0.4rem; width: 20rem; font-size: 2rem; border: 0rem; margin-top: 1%; text-align:center; color: #fff; } button:hover { opacity: 10.5; cursor: pointer; box-shadow: -1px 1px 8px #AFE1F7; color: #AFE1F7; } .di{ min-height: 100vh; width: 100vw; background-color: #AFE1F7; display: flex; flex-direction: column; justify-content: center; align-items: center; } </style> </body></html>`);
       } else {
         const pay = new Payment();
         pay.set("idSession", idSession);
@@ -100,11 +104,11 @@ app.get('/order/success', async (req, res) => {
             var dogmaSend = Moralis.Units.ETH(dogma);
             var priceSend = Moralis.Units.ETH(price);
 
-            changeContract.methods.buy(priceSend,dogmaSend,address).send({from: '0x228caE4c3e91548AE04906b83d8041FE705AA977'}, function(error, result){
+            changeContract.methods.buy(priceSend,dogmaSend,address).send({from: process.env.walletOwner}, function(error, result){
               console.log('error aqui',error);
               console.log('resultado aqui',result);
             });
-            res.write(`<html><body><h1>Thanks for your order, ${customer.name}!</h1></body></html>`);
+            res.write(`<html><body > <div class="di"> <img src="https://ludic.school/wp-content/uploads/2021/12/Final-03-1536x469.png" alt="Logo"> <section> <div style=" text-align: center; justify-content: center; align-items: center; "> <div class="container"> <h1>Gracias por su compra, ${customer.name}! </h1> <h2>La transaccion fue realizada con exito!</h2> <a href="https://ludic.school/" class="button">Volver a inicio</a> </div> </div> </section> </div> <style> body { background: #AFE1F7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Ubuntu', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; } h2,h1 { font-style: normal; font-size: 3rem; line-height: auto; color: #242d60; margin: 0; opacity: 0.5; } img { width: 45rem; } section{ background: #6FC5A8; display: block; position: relative; width: 100%; height: auto; border-radius: 1rem; padding: 1rem; margin:auto; margin-top: 0%; text-align:center; } .button { border-radius: 0.4rem; width: 20rem; font-size: 2rem; border: 0rem; margin-top: 1%; text-align:center; color: #fff; } button:hover { opacity: 10.5; cursor: pointer; box-shadow: -1px 1px 8px #AFE1F7; color: #AFE1F7; } .di{ min-height: 100vh; width: 100vw; background-color: #AFE1F7; display: flex; flex-direction: column; justify-content: center; align-items: center; } </style> </body></html>`);
           }, (error) => {
             // Execute any logic that should take place if the save fails.
             // error is a Moralis.Error with an error code and message.
@@ -117,7 +121,7 @@ app.get('/order/success', async (req, res) => {
     }
 
   } else {
-    res.send(`<html><body><h1>La transaccion fue rechazada!</h1></body></html>`);
+    res.send(`<html><body > <div class="di"> <img src="https://ludic.school/wp-content/uploads/2021/12/Final-03-1536x469.png" alt="Logo"> <section> <div style=" text-align: center; justify-content: center; align-items: center; "> <div class="container"> <h1>Ooops. Ha Ocurrido Un Error!</h1> <h2>La transaccion fue rechazada!</h2> <a href="https://ludic.school/" class="button">Volver a intentar</a> </div> </div> </section> </div> <style> body { background: #AFE1F7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Ubuntu', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; } h2,h1 { font-style: normal; font-size: 3rem; line-height: auto; color: #242d60; margin: 0; opacity: 0.5; } img { width: 45rem; } section{ background: #6FC5A8; display: block; position: relative; width: 100%; height: auto; border-radius: 1rem; padding: 1rem; margin:auto; margin-top: 0%; text-align:center; } .button { border-radius: 0.4rem; width: 20rem; font-size: 2rem; border: 0rem; margin-top: 1%; text-align:center; color: #fff; } button:hover { opacity: 10.5; cursor: pointer; box-shadow: -1px 1px 8px #AFE1F7; color: #AFE1F7; } .di{ min-height: 100vh; width: 100vw; background-color: #AFE1F7; display: flex; flex-direction: column; justify-content: center; align-items: center; } </style> </body></html>`);
   }
 
 

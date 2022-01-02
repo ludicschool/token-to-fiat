@@ -21,11 +21,17 @@ export default class ProductDisplay extends Component {
         return { [name]: value };
         });
     }
+    
     render() {
+     
         if (this.state.isFetch) {
-            return 'loading...'
+            return (
+                <div className="col text-center">
+                    <h4>cargando!</h4>
+                    </div>
+                )
         }
-        var precioDogma = this.state.api;
+        var precioDogma = process.env.REACT_APP_PRICE;
         var fiat = this.state.price
         const price = fiat / precioDogma        
         return (
@@ -34,17 +40,18 @@ export default class ProductDisplay extends Component {
                     <div className="product">
                         <form action="/create-checkout-session" method="POST">
                             <img
-                                src="https://i.imgur.com/EHyR2nP.png"
-                                alt="The cover of Stubborn Attachments"
+                                className="logo"
+                                src={'../assets/Ludic.png'}
+                                alt="Ludic School Logo"
                             />
                             <div className="description">
-                                <h3>MY NFT</h3>
-                                <h3>Precio DNA:</h3>
-                                <h3>{ precioDogma = this.state.api } $</h3>
+                                <h4>Precio Ludic: { precioDogma = process.env.REACT_APP_PRICE} $</h4>
                                 <div>
                             </div>
+                            <h6>
+                            Cantidad a comprar en dolares: 
+                            </h6>
                                 <label>
-                                    Precio:
                                     <input
                                         type="number" 
                                         name="price" 
@@ -54,22 +61,22 @@ export default class ProductDisplay extends Component {
                                 </label>
                             </div>
                             <div>
-                                <label>
-                                Total DNA:
-                                </label>
+                                <h4>
+                                Total Ludic: { price } Ludic
+                                </h4>
                             </div>
                             <div>
-                                <strong>
-                                { price } DNA 
-                                </strong>
-                            </div>
-                            <div>
+                            <h6>
+                            Wallet conectada actualmente: 
+                            </h6>
                                 <label>
-                                    Wallet:
                                     <input type="text" name="wallet" id="wallet" value={this.props.children[1]}/>
                                 </label>
+                            <h6>
+                            {this.props.children[1]}
+                            </h6>
                             </div>
-                            <button type="submit">
+                            <button className='button' type="submit">
                                 Comprar
                             </button>
                         </form>

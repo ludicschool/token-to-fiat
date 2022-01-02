@@ -8,9 +8,10 @@ import Menu from './components/Menu';
 // pages
 import HomePage from './pages/HomePage';
 import BuyPage from './pages/BuyPage';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ErrorPage from './pages/ErrorPage';
 
 function App() {
-
   const [navToggled, setNavToggled] = useState(false);
 
   const handleNavToggle = () => {
@@ -19,13 +20,14 @@ function App() {
 
   return (
     <div className="App">
-      <Toggle handleNavToggle={handleNavToggle} />
+  
+      
       <Router>
-        {navToggled ? <Menu handleNavToggle={handleNavToggle} /> : null}
-
-        <Route exact path="/" component={HomePage} />
-        <Route exact path="/buy" component={BuyPage} />
-
+      <Switch>
+      {navToggled ? <Menu handleNavToggle={handleNavToggle} /> : null}
+        <Route exact path="/" component={BuyPage} />
+        <Route path="*" component={ErrorPage} />
+      </Switch>
       </Router>
     </div>
   );
