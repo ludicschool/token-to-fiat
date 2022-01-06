@@ -1,33 +1,33 @@
 body {
-  background: #AFE1F7;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-  'Helvetica Neue', 'Ubuntu', sans-serif;
+  background: #afe1f7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Helvetica Neue", "Ubuntu", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-h1{
+h1 {
   font-size: clamp(3rem, 5vw, 7vw);
-    color: #eee;
-    font-weight: 700;
-    margin: 0;
-    padding: 0;
-    user-select: none; /* supported by Chrome and Opera */
-   -webkit-user-select: none; /* Safari */
-   -khtml-user-select: none; /* Konqueror HTML */
-   -moz-user-select: none; /* Firefox */
-   -ms-user-select: none; /* Internet Explorer/Edge */
-   align-items: center;
+  color: #eee;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  align-items: center;
 }
 section {
-  background: #6FC5A8;
+  background: #6fc5a8;
   display: block;
   position: relative;
   width: 100%;
   height: auto;
   border-radius: 1rem;
   padding: 1rem;
-  margin:auto;
-  text-align:center;
+  margin: auto;
+  text-align: center;
 }
 .description {
   flex-direction: column;
@@ -38,7 +38,7 @@ p {
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
-  color: #242d60; 
+  color: #242d60;
   height: 100%;
   width: 100%;
   padding: 20px;
@@ -53,11 +53,11 @@ p {
   height: 120px;
 }
 .image {
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    width: 100%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 100%;
 }
 h4,
 h5 {
@@ -68,7 +68,7 @@ h5 {
   color: #242d60;
   margin: 0;
 }
-h6{
+h6 {
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -79,7 +79,8 @@ h6{
 h5 {
   opacity: 0.5;
 }
-input,label{
+input,
+label {
   margin-top: 0;
 }
 .button {
@@ -87,17 +88,20 @@ input,label{
   border-radius: 0.4rem;
   width: 10rem;
   font-size: 1.5rem;
-  border: 0rem; 
+  border: 0rem;
   margin-top: 2%;
-  text-align:center;
+  text-align: center;
   color: #fff;
 }
 button:hover {
   opacity: 10.5;
   cursor: pointer;
-  box-shadow: -1px 1px 8px #AFE1F7;
-  color: #AFE1F7;
+  box-shadow: -1px 1px 8px #afe1f7;
+  color: #afe1f7;
   width: 10.1rem;
-  text-align:center;
+  text-align: center;
   font-size: 1.6rem;
+}
+.planta {
+  max-width: 300px;
 }
